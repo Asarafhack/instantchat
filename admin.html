@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .messages {
+            text-align: left;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            background: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #3897f0;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .icon {
+            font-size: 50px;
+            color: #3897f0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <i class="fas fa-user-shield icon"></i>
+        <h2>Admin Panel</h2>
+        <button onclick="loadMessages()">Refresh Messages</button>
+        <div id="messages" class="messages"></div>
+    </div>
+
+    <script>
+        const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_SCRIPT_URL";  // Replace with your Google Script URL
+
+        function loadMessages() {
+            fetch(GOOGLE_SCRIPT_URL)
+                .then(response => response.json())
+                .then(messages => {
+                    const messagesDiv = document.getElementById("messages");
+                    messagesDiv.innerHTML = messages.map(msg =>
+                        `<p><strong>${msg.user}:</strong> ${msg.message} <small>(${new Date(msg.timestamp).toLocaleString()})</small></p>`
+                    ).join("");
+                });
+        }
+
+        window.onload = loadMessages;
+    </script>
+
+</body>
+
+</html>
